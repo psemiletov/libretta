@@ -1,0 +1,2 @@
+default:
+	g++ libretta_linear_interpolator2.cpp libretta_linear_interpolator_test2.cpp -o libretta_linear_interpolator_test2

@@ -1,0 +1,7 @@
+libretta_calc is the expression evaluator that supports braces and +, -, *, / 
+The short example of the usage is:
+
+cout << calculate ("(5+3)*3)") << endl;
+
+More see at libretta_calc_test
+

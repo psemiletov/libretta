@@ -1,0 +1,27 @@
+img_tga
+
+A simple TGA reader class.
+Supports BGR, BGR+RLE
+
+Note: use img_utils to covert BGR to the RGB and do other useful things
+
+
+Example:
+
+
+CTGAImage image (argv[1]);
+char *rgba = rgb_to_rgba (image.data_rgb, image.tga_header.width, image.tga_header.height);
+
+to show it in Qt:
+
+Image img ((uchar *)rgba, image.tga_header.width, image.tga_header.height, QImage::Format_ARGB32);
+l = new QLabel ("");
+setCentralWidget (l);
+l->setPixmap (QPixmap::fromImage (img));
+
+
+to show it via pure X window:
+
+full example: tga_img_test.cpp
+compile: make -f tga_img_test.Makefile
+run: ./tga_img_test filegame.tga
