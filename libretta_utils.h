@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <stdlib.h>
 
 
@@ -37,6 +38,9 @@ inline double get_percent (double total, double value)
 {
   return (value / total) * 100;
 }
+
+
+vector <string> files_get_list (const string &path, const string &ext);
 
 
 #endif

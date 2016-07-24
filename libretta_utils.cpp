@@ -7,9 +7,12 @@
 #include <locale> 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include <stdlib.h>
 #include <stdio.h>  // for FILENAME_MAX
+
+#include <dirent.h>
 
 
 #ifdef WINDOWS
@@ -52,4 +55,31 @@ string current_path()
 
   result = path;
   return result;
+}
+
+
+vector <string> files_get_list (const string &path, const string &ext) //ext with dot: ".txt"
+{
+  DIR *directory;
+  struct dirent *dir_entry;
+
+  vector <string> result;
+  
+  directory = opendir(path.c_str());
+  if (! directory)
+     {
+      closedir (directory);
+      return result;
+     }
+
+   while (dir_entry = readdir (directory)) 
+         {
+          // std::cout << dir_entry->d_name << std::endl;
+          string t = dir_entry->d_name;
+          if (t.rfind (ext) != string::npos)
+            result.push_back (path + "/" + t);
+         }
+
+   closedir (directory);
+   return result;
 }
