@@ -11,7 +11,7 @@
 #include "libretta_string_utils.h"
 
 
-vector<string> &split (const string &s, char delim)
+vector<string> string_split (const string &s, char delim)
 {
   vector<string> result;
   stringstream stream (s);

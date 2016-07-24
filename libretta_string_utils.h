@@ -17,7 +17,7 @@
 
 using namespace std;
 
-vector<string> &split (const string &s, char delim);
+vector<string> string_split (const string &s, char delim);
 
 string string_file_load (const string &fname);
 
