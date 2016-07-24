@@ -1,6 +1,6 @@
 # libretta
 Libretta is a Public Domain library for C++,
-by Peter Semiletov (peter.semiletov@gmail.com)
+by Peter Semiletov
 ----------------------------------------------
 
 version 1.1.0
