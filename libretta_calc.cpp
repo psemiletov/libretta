@@ -6,6 +6,10 @@
 #include <iterator>
 #include <ctype.h>
 #include <locale>
+#include <math.h>
+
+#include "utils.h"
+
 
 using namespace std;
 
@@ -41,7 +45,6 @@ double calculate (string expression)
       sep_find = ",";
   else
       sep_find = ".";
-       
 
   size_t position = expression.find (sep_find); 
 
@@ -59,35 +62,36 @@ double calculate (string expression)
     
   size_t start_pos = 0;
   if (end_pos != string::npos)
-  do 
-    {
-//     for (int i = end_pos; i >= 0; i--)
-     for (size_t i = end_pos; i-- > 0 ;)
-         {
-          if (expression[i] == '(')
+      do 
+        {
+//         for (size_t i = end_pos; i >= 0; i--)
+         for (size_t i = end_pos; i-- > 0 ;)
+
              {
-              start_pos = i;
-              break;
+              if (expression[i] == '(')
+                 {
+                  start_pos = i;
+                  break;
+                 }
              }
-         }
      
-     //end_pos = expression.find (")"); 
-     string s_temp_value = expression.substr (start_pos + 1, end_pos - start_pos - 1); 
+         //end_pos = expression.find (")"); 
+         string s_temp_value = expression.substr (start_pos + 1, end_pos - start_pos - 1); 
  
-     //cout << "start_pos = " << start_pos << " end pos = " << end_pos << endl;    
-     //cout << "s_temp_value = " << s_temp_value << endl;    
+        //cout << "start_pos = " << start_pos << " end pos = " << end_pos << endl;    
+        //cout << "s_temp_value = " << s_temp_value << endl;    
  
-     double f_temp_value = calculate (s_temp_value);
+        double f_temp_value = calculate (s_temp_value);
  
-     std::ostringstream float_stream;
-     float_stream << f_temp_value;
-     string temp_s (float_stream.str());
+        std::ostringstream float_stream;
+        float_stream << f_temp_value;
+        string temp_s (float_stream.str());
      
-     //cout << "temp_s = " << temp_s << endl;
+        //cout << "temp_s = " << temp_s << endl;
  
-     expression = expression.replace (start_pos + 1, end_pos - start_pos - 1, temp_s);
-    }
-  while (end_pos == string::npos);        
+        expression = expression.replace (start_pos + 1, end_pos - start_pos - 1, temp_s);
+       }
+     while (end_pos == string::npos);        
      
        
 //parse expression to list:
@@ -108,6 +112,7 @@ double calculate (string expression)
 
        if (t == '+' || t == '-' ||
            t == '/' || t == '*' || 
+           t == '^' || t == '%' || 
            i == stop_size)
           {
            new_operator = true;
@@ -132,23 +137,59 @@ double calculate (string expression)
      }
 
 
-//умножаем и делим
 
   list<CItem>::iterator p = items.begin();
 
- // int c = 0;
+//степень и процент
+  do {
+      CItem current = *p;
+
+      list<CItem>::iterator t = p;
+      ++t;
+
+      CItem next = *t;
+
+      if (current.op == '^' || current.op == '%')
+         {
+
+          if (current.op == '^')
+             {
+              next.val = pow (current.val, next.val);             
+              *t = next;
+             }
+          else    
+              if (current.op == '%')
+                 {
+                  next.val = (float) get_value (current.val, next.val);             
+                  *t = next; 
+                 }
+
+          p = items.erase (p);
+            
+          continue;
+         }
+
+      p++;
+     }
+  while (p != items.end());
+
+
+
+
+//умножаем и делим
+  p = items.begin();
 
   do {
       CItem current = *p;
 
       list<CItem>::iterator t = p;
-      t++;
+      ++t;
 
       CItem next = *t;
 
       if (current.op == '*' || current.op == '/')
          {
-              
+
           if (current.op == '*')
              {
               next.val = current.val * next.val;             
@@ -173,7 +214,6 @@ double calculate (string expression)
 //складываем и вычитаем
 
   p = items.begin();
-
 
   do {
       CItem current = *p;
