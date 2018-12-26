@@ -15,11 +15,22 @@
 #include <stdlib.h>
 
 
+
+#ifdef WINDOWS
+#define DIR_SEPARATOR '\\'
+#else
+#define DIR_SEPARATOR '/'
+#endif
+
+
 using namespace std;
 
 string get_2char_locale();
 string get_home_dir();
 string current_path();
+string file_get_path (const string& fname); 
+string file_get_ext (const string& fname); 
+ 
 
 
 inline float get_fvalue (float total, float perc)
