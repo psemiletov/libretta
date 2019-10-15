@@ -13,7 +13,6 @@
 
 using namespace std;
 
-
 typedef std::map <string, string> TSPair;
 
 
@@ -25,7 +24,7 @@ void CPairFile::save()
  
   TSPair::const_iterator end = values.end(); 
 
-  for (TSPair::const_iterator it = values.begin(); it != end; ++it)
+  for (TSPair::const_iterator it = values.begin(); it != end; it++)
      {
       myfile << it->first << "=" << it->second << '\n';
      }
@@ -42,7 +41,7 @@ void CPairFile::set_string (const string &key, const string &value)
 
 void CPairFile::set_float (const string &key, float value)
 {
-  char buffer [33];
+  char buffer [64];
   sprintf (buffer, "%f", value);
   string n (buffer);
   values[key] = n; 
@@ -66,7 +65,7 @@ float CPairFile::get_float (const string &key, float def_value)
 
 void CPairFile::set_int (const string &key, int value)
 {
-  char buffer [33];
+  char buffer [64];
   sprintf (buffer, "%d", value);
   string n (buffer);
   values[key] = n; 
@@ -167,3 +166,4 @@ CPairFile::CPairFile (const string &fname, bool from_data)
 
   infile.close();
 };
+
